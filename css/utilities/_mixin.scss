@@ -1,0 +1,149 @@
+///
+/// The **::placeholder** pseudo element allows you to style the placeholder text of a form element.
+///
+/// @name inputPlaceholder
+///
+/// @example
+///   input {
+///     ...
+///     color: #000;
+///     font-size: 16px;
+///     font-weight: 600;
+///     @include inputPlaceholder {
+///       color: #333;
+///       font-size: 18px;
+///       font-weight: 500;
+///     }
+///   }
+///
+///
+@mixin inputPlaceholder {
+	&:-moz-placeholder { @content; }
+	&::-moz-placeholder { @content; }
+	&:-ms-input-placeholder { @content; }
+	&::-webkit-input-placeholder { @content; }
+}
+
+
+///
+/// Transitions allows you to change property values smoothly, over a given duration.
+/// By default **transition timing function - ease-in-out**.
+///
+/// @name transition
+///
+/// @param {Number | String | Bool | Color | List | Map | Null}  $rest... [null] - is a collection of several values that have a specific type (number, string, bool, color, list, map or null)
+///
+/// @example
+///   .button {
+///     ...
+///     opacity: 0;
+///     background-color: #ccc;
+///     @include transition(opacity, background-color);
+///   }
+///
+///   ...if you need to change duration time then...
+///
+///   img {
+///     ...
+///     opacity: 0;
+///     transform-origin: center;
+///     @include transition(transform 0.55s, opacity);
+///   }
+///
+@mixin transition($rest...) {
+	$list: null;
+	$duration: null;
+	$idx: null;
+
+	@each $prop in ($rest) {
+		$idx: str_index(inspect($prop), "0.");
+
+		@if($idx == null) {
+			$duration: 0.35s;
+		}
+
+		$list: append($list, $prop $duration ease-in-out, comma);
+	}
+
+	transition: $list;
+}
+
+
+///
+/// Mixin fluid
+///
+/// @example
+///
+///		<selector> {
+///			// single
+///			@include fluid(font-size, 320px, 1366px, 14px, 22px);
+///
+///			// multiple
+///			@include fluid(padding-bottom padding-top, 20em, 70em, 2em, 4em);
+///
+///		}
+///
+@mixin fluid($properties, $min-vw, $max-vw, $min-value, $max-value) {
+	@each $property in $properties {
+		#{$property}: $min-value;
+	}
+
+	@media screen and (min-width: $min-vw) {
+		@each $property in $properties {
+			#{$property}: calc(#{$min-value} + #{strip-unit($max-value - $min-value)} * (100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)});
+		}
+	}
+
+	@media screen and (min-width: $max-vw) {
+		@each $property in $properties {
+			#{$property}: $max-value;
+		}
+	}
+}
+
+
+///
+/// A media query consists of an optional media type (all, handheld, print, TV and so on) and any number of optional expressions that limit when the query will trigger, such as width, pixel-density or orientation.
+///
+/// @name adaptive
+///
+/// @param {Number} $val - the number that indicates the conditions under which the trigger occurs
+///
+/// @example
+///   .box {
+///     ...
+///     width: 100%;
+///     max-width: calc(100% / 3);
+///     @include adaptive(767) {
+///       max-width: 100%;
+///     }
+///   }
+///
+///
+///
+@mixin adaptive($val) {
+  @media screen and (max-width: #{$val}px) {
+    @content;
+  }
+}
+
+
+/// @name adaptiveCustom
+///
+/// @param {String} $val - the string that indicates the conditions under which the trigger occurs
+///
+/// @example
+///   .box {
+///     ...
+///     width: 100%;
+///     max-width: calc(100% / 3);
+///     @include adaptiveCustom('(min-width: 768px)') {
+///       max-width: 100%;
+///     }
+///   }
+///
+@mixin adaptiveCustom($val) {
+	@media screen and #{$val} {
+		@content;
+	}
+}
