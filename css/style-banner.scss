@@ -131,7 +131,7 @@
 			&__bg {
 				&-right {
 					img {
-						top: 215%;
+						//top: 215%;
 						right: 144px;
 					}
 				}
@@ -144,7 +144,7 @@
 			&__bg {
 				&-right {
 					img {
-						top: 215%;
+						//top: 215%;
 						right: calc(-29% - 8px);
 					}
 				}
@@ -164,8 +164,9 @@
 
 				&-right {
 					img {
-						top: 215%;
+						//top: 215%;
 						right: calc(-29% - 8px);
+						height: 100%;
 					}
 				}
 			}
@@ -177,7 +178,7 @@
 			&__bg {
 				&-right {
 					img {
-						top: 405%;
+						//top: 405%;
 						right: 153px;
 					}
 				}
@@ -195,7 +196,7 @@
 			&__bg {
 				&-right {
 					img {
-						top: 405%;
+						//top: 405%;
 						right: calc(-22% - 12px);
 					}
 				}
@@ -213,8 +214,9 @@
 			&__bg {
 				&-right {
 					img {
-						top: 255%;
+						//top: 255%;
 						right: calc(-48% - 12px);
+						height: 100%;
 					}
 				}
 			}
